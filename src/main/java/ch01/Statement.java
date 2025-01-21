@@ -17,8 +17,7 @@ public class Statement {
         DecimalFormat format = new DecimalFormat("$#.00");
 
         for (Performance perf : invoice.performances()) {
-            //
-            int thisAmount = amountFor(perf, playFor(perf));
+            int thisAmount = amountFor(perf);
 
             // 포인트를 적립한다.
             volumeCredits += Math.max(perf.audience() - 30, 0);
@@ -40,7 +39,7 @@ public class Statement {
         return this.plays.get(perf.playID());
     }
 
-    private int amountFor(Performance aPerformance, Play play) {
+    private int amountFor(Performance aPerformance) {
         int result = 0;
 
         switch (playFor(aPerformance).type()) {
