@@ -6,14 +6,19 @@ import java.util.Map;
 
 public class Statement {
 
+    private Map<String, Play> plays;
+
     public String statement(Invoice invoice, Map<String, Play> plays) {
+        // 생성자로 plays를 넣거나 현재처럼 넣거나이지만 예제의 함수를 최대한 변경하지 않으려 이곳에서 값 할당.
+        this.plays = plays;
         int totalAmount = 0;
         int volumeCredits = 0;
         String result = "청구 내역(고객명: " + invoice.customer() + ")\n";
         DecimalFormat format = new DecimalFormat("$#.00");
 
         for (Performance perf : invoice.performances()) {
-            Play play = plays.get(perf.playID());
+            //
+            Play play = playFor(perf);
             int thisAmount = amountFor(perf, play);
 
             // 포인트를 적립한다.
@@ -30,6 +35,10 @@ public class Statement {
         result += "총액: " + format.format(totalAmount/100) + "\n";
         result += "적립 포인트: " + volumeCredits + "점\n";
         return result;
+    }
+
+    private Play playFor(Performance perf) {
+        return this.plays.get(perf.playID());
     }
 
     private int amountFor(Performance aPerformance, Play play) {
