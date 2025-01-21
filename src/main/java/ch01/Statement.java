@@ -18,18 +18,17 @@ public class Statement {
 
         for (Performance perf : invoice.performances()) {
             //
-            Play play = playFor(perf);
-            int thisAmount = amountFor(perf, play);
+            int thisAmount = amountFor(perf, playFor(perf));
 
             // 포인트를 적립한다.
             volumeCredits += Math.max(perf.audience() - 30, 0);
             // 희극 관객 5명마다 추가 포인트를 제공한다.
-            if ("comedy".equals(play.type())) {
+            if ("comedy".equals(playFor(perf).type())) {
                 volumeCredits += Math.floor(perf.audience() / 5);
             }
 
             // 청구 내역을 출력한다.
-            result += "  " + play.name() + ": " + format.format(thisAmount / 100) + " (" + perf.audience() + "석)\n";
+            result += "  " + playFor(perf).name() + ": " + format.format(thisAmount / 100) + " (" + perf.audience() + "석)\n";
             totalAmount += thisAmount;
         }
         result += "총액: " + format.format(totalAmount/100) + "\n";
