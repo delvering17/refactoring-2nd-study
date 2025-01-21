@@ -14,9 +14,7 @@ public class Statement {
 
         for (Performance perf : invoice.performances()) {
             Play play = plays.get(perf.playID());
-            int thisAmount = 0;
-
-            thisAmount = amountFor(perf, play);
+            int thisAmount = amountFor(perf, play);
 
             // 포인트를 적립한다.
             volumeCredits += Math.max(perf.audience() - 30, 0);
