@@ -17,8 +17,6 @@ public class Statement {
         DecimalFormat format = new DecimalFormat("$#.00");
 
         for (Performance perf : invoice.performances()) {
-
-            // 포인트를 적립한다.
             volumeCredits = volumeCreditsFor(perf);
 
             // 청구 내역을 출력한다.
@@ -33,7 +31,7 @@ public class Statement {
     private int volumeCreditsFor(Performance perf) {
         int volumeCredits = 0;
         volumeCredits += Math.max(perf.audience() - 30, 0);
-        // 희극 관객 5명마다 추가 포인트를 제공한다.
+
         if ("comedy".equals(playFor(perf).type())) {
             volumeCredits += Math.floor(perf.audience() / 5);
         }
