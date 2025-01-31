@@ -13,7 +13,7 @@ public class Statement {
         // 생성자로 plays를 넣거나 현재처럼 넣거나이지만 예제의 함수를 최대한 변경하지 않으려 이곳에서 값 할당.
         this.plays = plays;
         int totalAmount = 0;
-        int volumeCredits = 0;
+
         String result = "청구 내역(고객명: " + invoice.customer() + ")\n";
 
         for (Performance perf : invoice.performances()) {
@@ -21,6 +21,7 @@ public class Statement {
             result += "    " + playFor(perf).name() + ": " + usd(amountFor(perf)) + " (" + perf.audience() + "석)\n";
             totalAmount += amountFor(perf);
         }
+        int volumeCredits = 0;
         for (Performance perf : invoice.performances()) {
             volumeCredits = volumeCreditsFor(perf);
         }
