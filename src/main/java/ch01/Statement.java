@@ -22,12 +22,12 @@ public class Statement {
             result += "    " + playFor(perf).name() + ": " + usd(amountFor(perf)) + " (" + perf.audience() + "석)\n";
         }
 
-        result += "총액: " + usd(totalAmount(invoice)) + "\n";
+        result += "총액: " + usd(totalAmount()) + "\n";
         result += "적립 포인트: " + totalVolumeCredits() + "점\n";
         return result;
     }
 
-    private int totalAmount(Invoice invoice) {
+    private int totalAmount() {
         int totalAmount = 0;
         for (Performance perf : invoice.performances()) {
             totalAmount += amountFor(perf);
