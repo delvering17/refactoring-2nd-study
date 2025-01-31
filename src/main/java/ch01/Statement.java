@@ -1,7 +1,8 @@
 package ch01;
 
-import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class Statement {
@@ -14,7 +15,7 @@ public class Statement {
         int totalAmount = 0;
         int volumeCredits = 0;
         String result = "청구 내역(고객명: " + invoice.customer() + ")\n";
-        DecimalFormat format = new DecimalFormat("$#.00");
+        NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
 
         for (Performance perf : invoice.performances()) {
             volumeCredits = volumeCreditsFor(perf);
