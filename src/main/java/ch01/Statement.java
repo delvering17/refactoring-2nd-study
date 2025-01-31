@@ -14,10 +14,12 @@ public class Statement {
         // 생성자로 plays를 넣거나 현재처럼 넣거나이지만 예제의 함수를 최대한 변경하지 않으려 이곳에서 값 할당.
         this.invoice = invoice;
         this.plays = plays;
-        return renderPlainText(invoice);
+
+        StatementData statementData = new StatementData();
+        return renderPlainText(statementData, invoice);
     }
 
-    private String renderPlainText(Invoice invoice) {
+    private String renderPlainText(StatementData data, Invoice invoice) {
         String result = "청구 내역(고객명: " + invoice.customer() + ")\n";
 
         for (Performance perf : invoice.performances()) {
