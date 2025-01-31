@@ -8,9 +8,11 @@ import java.util.Map;
 public class Statement {
 
     private Map<String, Play> plays;
+    private Invoice invoice;
 
     public String statement(Invoice invoice, Map<String, Play> plays) {
         // 생성자로 plays를 넣거나 현재처럼 넣거나이지만 예제의 함수를 최대한 변경하지 않으려 이곳에서 값 할당.
+        this.invoice = invoice;
         this.plays = plays;
         int totalAmount = 0;
 
@@ -21,14 +23,19 @@ public class Statement {
             result += "    " + playFor(perf).name() + ": " + usd(amountFor(perf)) + " (" + perf.audience() + "석)\n";
             totalAmount += amountFor(perf);
         }
-        int volumeCredits = 0;
-        for (Performance perf : invoice.performances()) {
-            volumeCredits = volumeCreditsFor(perf);
-        }
+        int volumeCredits = totalVolumeCredits();
 
         result += "총액: " + usd(totalAmount) + "\n";
         result += "적립 포인트: " + volumeCredits + "점\n";
         return result;
+    }
+
+    private int totalVolumeCredits() {
+        int volumeCredits = 0;
+        for (Performance perf : invoice.performances()) {
+            volumeCredits = volumeCreditsFor(perf);
+        }
+        return volumeCredits;
     }
 
     private String usd(double aNumber) {
