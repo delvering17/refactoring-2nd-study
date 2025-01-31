@@ -15,18 +15,22 @@ public class Statement {
         int totalAmount = 0;
         int volumeCredits = 0;
         String result = "청구 내역(고객명: " + invoice.customer() + ")\n";
-        NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
 
         for (Performance perf : invoice.performances()) {
             volumeCredits = volumeCreditsFor(perf);
 
             // 청구 내역을 출력한다.
-            result += "    " + playFor(perf).name() + ": " + format.format((double) amountFor(perf) / 100) + " (" + perf.audience() + "석)\n";
+            result += "    " + playFor(perf).name() + ": " + format((double) amountFor(perf) / 100) + " (" + perf.audience() + "석)\n";
             totalAmount += amountFor(perf);
         }
-        result += "총액: " + format.format((double) totalAmount / 100) + "\n";
+        result += "총액: " + format((double) totalAmount / 100) + "\n";
         result += "적립 포인트: " + volumeCredits + "점\n";
         return result;
+    }
+
+    private String format(double aNumber) {
+        return NumberFormat.getCurrencyInstance(Locale.US)
+                .format(aNumber);
     }
 
     private int volumeCreditsFor(Performance perf) {
