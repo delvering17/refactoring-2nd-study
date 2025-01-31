@@ -14,8 +14,12 @@ public class Statement {
         // 생성자로 plays를 넣거나 현재처럼 넣거나이지만 예제의 함수를 최대한 변경하지 않으려 이곳에서 값 할당.
         this.invoice = invoice;
         this.plays = plays;
-
-        StatementData statementData = new StatementData(invoice.customer(), invoice.performances());
+        StatementData statementData = new StatementData(
+                invoice.customer(),
+                invoice.performances().stream()
+                        .map(performance -> new Performance(performance.playID(), performance.audience()))
+                        .toList()
+        );
         return renderPlainText(statementData);
     }
 
