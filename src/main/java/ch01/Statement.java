@@ -15,14 +15,14 @@ public class Statement {
         this.invoice = invoice;
         this.plays = plays;
 
-        StatementData statementData = new StatementData(invoice.customer());
-        return renderPlainText(statementData, invoice);
+        StatementData statementData = new StatementData(invoice.customer(), invoice.performances());
+        return renderPlainText(statementData);
     }
 
-    private String renderPlainText(StatementData data, Invoice invoice) {
+    private String renderPlainText(StatementData data) {
         String result = "청구 내역(고객명: " + data.customer() + ")\n";
 
-        for (Performance perf : invoice.performances()) {
+        for (Performance perf : data.performances()) {
             // 청구 내역을 출력한다.
             result += "    " + playFor(perf).name() + ": " + usd(amountFor(perf)) + " (" + perf.audience() + "석)\n";
         }
