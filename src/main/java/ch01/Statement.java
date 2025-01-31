@@ -15,12 +15,12 @@ public class Statement {
         this.invoice = invoice;
         this.plays = plays;
 
-        StatementData statementData = new StatementData();
+        StatementData statementData = new StatementData(invoice.customer());
         return renderPlainText(statementData, invoice);
     }
 
     private String renderPlainText(StatementData data, Invoice invoice) {
-        String result = "청구 내역(고객명: " + invoice.customer() + ")\n";
+        String result = "청구 내역(고객명: " + data.customer() + ")\n";
 
         for (Performance perf : invoice.performances()) {
             // 청구 내역을 출력한다.

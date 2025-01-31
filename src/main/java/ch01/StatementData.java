@@ -1,4 +1,4 @@
 package ch01;
 
-public record StatementData() {
+public record StatementData(String customer) {
 }
