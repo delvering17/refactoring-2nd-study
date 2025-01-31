@@ -28,11 +28,11 @@ public class Statement {
     }
 
     private int totalAmount() {
-        int totalAmount = 0;
+        int result = 0;
         for (Performance perf : invoice.performances()) {
-            totalAmount += amountFor(perf);
+            result += amountFor(perf);
         }
-        return totalAmount;
+        return result;
     }
 
     private int totalVolumeCredits() {
