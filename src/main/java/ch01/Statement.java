@@ -20,17 +20,17 @@ public class Statement {
             volumeCredits = volumeCreditsFor(perf);
 
             // 청구 내역을 출력한다.
-            result += "    " + playFor(perf).name() + ": " + format(amountFor(perf) / 100.0) + " (" + perf.audience() + "석)\n";
+            result += "    " + playFor(perf).name() + ": " + usd(amountFor(perf)) + " (" + perf.audience() + "석)\n";
             totalAmount += amountFor(perf);
         }
-        result += "총액: " + format(totalAmount / 100.0) + "\n";
+        result += "총액: " + usd(totalAmount) + "\n";
         result += "적립 포인트: " + volumeCredits + "점\n";
         return result;
     }
 
-    private String format(double aNumber) {
+    private String usd(double aNumber) {
         return NumberFormat.getCurrencyInstance(Locale.US)
-                .format(aNumber);
+                .format(aNumber / 100.0);
     }
 
     private int volumeCreditsFor(Performance perf) {
