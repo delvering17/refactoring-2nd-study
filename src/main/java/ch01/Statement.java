@@ -50,19 +50,15 @@ public class Statement {
     }
 
     private int totalAmount(List<PerformanceData> performances) {
-        int result = 0;
-        for (PerformanceData perf : performances) {
-            result +=  perf.amount();
-        }
-        return result;
+        return performances.stream()
+                .mapToInt(PerformanceData::amount)
+                .sum();
     }
 
     private int totalVolumeCredits(List<PerformanceData> performances) {
-        int volumeCredits = 0;
-        for (PerformanceData perf : performances) {
-            volumeCredits = perf.volumeCredits();
-        }
-        return volumeCredits;
+        return performances.stream()
+                .mapToInt(PerformanceData::volumeCredits)
+                .sum();
     }
 
     private String usd(double aNumber) {
