@@ -7,29 +7,9 @@ import java.util.Map;
 
 public class Statement {
 
-    private Map<String, Play> plays;
-    private Invoice invoice;
-
     public String statement(Invoice invoice, Map<String, Play> plays) {
-        // 생성자로 plays를 넣거나 현재처럼 넣거나이지만 예제의 함수를 최대한 변경하지 않으려 이곳에서 값 할당.
-        this.invoice = invoice;
-        this.plays = plays;
-
-        StatementData statementData = createStatementData(invoice);
+        StatementData statementData = new StatementDataFactory(plays).createStatementData(invoice);
         return renderPlainText(statementData);
-    }
-
-    private StatementData createStatementData(Invoice invoice) {
-        List<PerformanceData> performances = invoice.performances().stream()
-                .map(this::enrichPerformance)
-                .toList();
-
-        return new StatementData(
-                invoice.customer(),
-                performances,
-                totalAmount(performances),
-                totalVolumeCredits(performances)
-        );
     }
 
     private String renderPlainText(StatementData data) {
@@ -45,69 +25,9 @@ public class Statement {
         return result;
     }
 
-    private PerformanceData enrichPerformance(Performance aPerformance) {
-        return new PerformanceData(
-                aPerformance.playID(),
-                aPerformance.audience(),
-                playFor(aPerformance),
-                amountFor(aPerformance),
-                volumeCreditsFor(aPerformance)
-        );
-    }
-
-    private int totalAmount(List<PerformanceData> performances) {
-        return performances.stream()
-                .mapToInt(PerformanceData::amount)
-                .sum();
-    }
-
-    private int totalVolumeCredits(List<PerformanceData> performances) {
-        return performances.stream()
-                .mapToInt(PerformanceData::volumeCredits)
-                .sum();
-    }
-
     private String usd(double aNumber) {
         return NumberFormat.getCurrencyInstance(Locale.US)
                 .format(aNumber / 100.0);
-    }
-
-    private int volumeCreditsFor(Performance perf) {
-        int volumeCredits = 0;
-        volumeCredits += Math.max(perf.audience() - 30, 0);
-
-        if ("comedy".equals(playFor(perf).type())) {
-            volumeCredits += Math.floor(perf.audience() / 5);
-        }
-        return volumeCredits;
-    }
-
-    private Play playFor(Performance perf) {
-        return this.plays.get(perf.playID());
-    }
-
-    private int amountFor(Performance aPerformance) {
-        int result = 0;
-
-        switch (playFor(aPerformance).type()) {
-            case "tragedy": // 비극
-                result = 40000;
-                if (aPerformance.audience() > 30) {
-                    result += 1000 * (aPerformance.audience() - 30);
-                }
-                break;
-            case "comedy": // 희극
-                result = 30000;
-                if (aPerformance.audience() > 20) {
-                    result += 10000 + 500 * (aPerformance.audience() - 20);
-                }
-                result += 300 * aPerformance.audience();
-                break;
-            default:
-                throw new RuntimeException("알 수 없는 장르: " + playFor(aPerformance).type());
-        }
-
-        return result;
     }
 
     public static void main(String[] args) {
