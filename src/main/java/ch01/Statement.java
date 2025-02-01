@@ -14,11 +14,14 @@ public class Statement {
         // 생성자로 plays를 넣거나 현재처럼 넣거나이지만 예제의 함수를 최대한 변경하지 않으려 이곳에서 값 할당.
         this.invoice = invoice;
         this.plays = plays;
+        List<PerformanceData> performances = invoice.performances().stream()
+                .map(this::enrichPerformance)
+                .toList();
         StatementData statementData = new StatementData(
                 invoice.customer(),
-                invoice.performances().stream()
-                        .map(this::enrichPerformance)
-                        .toList()
+                performances,
+                totalAmount(performances),
+                totalVolumeCredits(performances)
         );
         return renderPlainText(statementData);
     }
@@ -31,8 +34,8 @@ public class Statement {
             result += "    " + perf.play().name() + ": " + usd(perf.amount()) + " (" + perf.audience() + "석)\n";
         }
 
-        result += "총액: " + usd(totalAmount(data)) + "\n";
-        result += "적립 포인트: " + totalVolumeCredits(data) + "점\n";
+        result += "총액: " + usd(data.totalAmount()) + "\n";
+        result += "적립 포인트: " + data.totalVolumeCredits() + "점\n";
         return result;
     }
 
@@ -46,17 +49,17 @@ public class Statement {
         );
     }
 
-    private int totalAmount(StatementData data) {
+    private int totalAmount(List<PerformanceData> performances) {
         int result = 0;
-        for (PerformanceData perf : data.performances()) {
+        for (PerformanceData perf : performances) {
             result +=  perf.amount();
         }
         return result;
     }
 
-    private int totalVolumeCredits(StatementData data) {
+    private int totalVolumeCredits(List<PerformanceData> performances) {
         int volumeCredits = 0;
-        for (PerformanceData perf : data.performances()) {
+        for (PerformanceData perf : performances) {
             volumeCredits = perf.volumeCredits();
         }
         return volumeCredits;
