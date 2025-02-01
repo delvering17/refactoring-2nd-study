@@ -17,10 +17,14 @@ public class Statement {
         StatementData statementData = new StatementData(
                 invoice.customer(),
                 invoice.performances().stream()
-                        .map(performance -> new Performance(performance.playID(), performance.audience()))
+                        .map(Statement::enrichPerformance)
                         .toList()
         );
         return renderPlainText(statementData);
+    }
+
+    private static Performance enrichPerformance(Performance performance) {
+        return new Performance(performance.playID(), performance.audience());
     }
 
     private String renderPlainText(StatementData data) {
