@@ -28,22 +28,27 @@ public class Statement {
 
         for (PerformanceData perf : data.performances()) {
             // 청구 내역을 출력한다.
-            result += "    " + perf.play().name() + ": " + usd(amountFor(perf)) + " (" + perf.audience() + "석)\n";
+            result += "    " + perf.play().name() + ": " + usd(perf.amount()) + " (" + perf.audience() + "석)\n";
         }
 
-        result += "총액: " + usd(totalAmount(data.performances())) + "\n";
+        result += "총액: " + usd(totalAmount(data)) + "\n";
         result += "적립 포인트: " + totalVolumeCredits() + "점\n";
         return result;
     }
 
     private PerformanceData enrichPerformance(Performance aPerformance) {
-        return new PerformanceData(aPerformance.playID(), aPerformance.audience(), playFor(aPerformance));
+        return new PerformanceData(
+                aPerformance.playID(),
+                aPerformance.audience(),
+                playFor(aPerformance),
+                amountFor(aPerformance)
+        );
     }
 
-    private int totalAmount(List<PerformanceData> performances) {
+    private int totalAmount(StatementData data) {
         int result = 0;
-        for (PerformanceData perf : performances) {
-            result += amountFor(perf);
+        for (PerformanceData perf : data.performances()) {
+            result +=  perf.amount();
         }
         return result;
     }
@@ -75,10 +80,10 @@ public class Statement {
         return this.plays.get(perf.playID());
     }
 
-    private int amountFor(PerformanceData aPerformance) {
+    private int amountFor(Performance aPerformance) {
         int result = 0;
 
-        switch (aPerformance.play().type()) {
+        switch (playFor(aPerformance).type()) {
             case "tragedy": // 비극
                 result = 40000;
                 if (aPerformance.audience() > 30) {
@@ -93,7 +98,7 @@ public class Statement {
                 result += 300 * aPerformance.audience();
                 break;
             default:
-                throw new RuntimeException("알 수 없는 장르: " + aPerformance.play().type());
+                throw new RuntimeException("알 수 없는 장르: " + playFor(aPerformance).type());
         }
 
         return result;
