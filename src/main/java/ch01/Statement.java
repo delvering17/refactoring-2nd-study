@@ -32,7 +32,7 @@ public class Statement {
         }
 
         result += "총액: " + usd(totalAmount(data)) + "\n";
-        result += "적립 포인트: " + totalVolumeCredits() + "점\n";
+        result += "적립 포인트: " + totalVolumeCredits(data) + "점\n";
         return result;
     }
 
@@ -41,7 +41,8 @@ public class Statement {
                 aPerformance.playID(),
                 aPerformance.audience(),
                 playFor(aPerformance),
-                amountFor(aPerformance)
+                amountFor(aPerformance),
+                volumeCreditsFor(aPerformance)
         );
     }
 
@@ -53,10 +54,10 @@ public class Statement {
         return result;
     }
 
-    private int totalVolumeCredits() {
+    private int totalVolumeCredits(StatementData data) {
         int volumeCredits = 0;
-        for (Performance perf : invoice.performances()) {
-            volumeCredits = volumeCreditsFor(perf);
+        for (PerformanceData perf : data.performances()) {
+            volumeCredits = perf.volumeCredits();
         }
         return volumeCredits;
     }
