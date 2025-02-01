@@ -17,32 +17,32 @@ public class Statement {
         StatementData statementData = new StatementData(
                 invoice.customer(),
                 invoice.performances().stream()
-                        .map(Statement::enrichPerformance)
+                        .map(this::enrichPerformance)
                         .toList()
         );
         return renderPlainText(statementData);
     }
 
-    private static Performance enrichPerformance(Performance performance) {
-        return new Performance(performance.playID(), performance.audience());
-    }
-
     private String renderPlainText(StatementData data) {
         String result = "청구 내역(고객명: " + data.customer() + ")\n";
 
-        for (Performance perf : data.performances()) {
+        for (PerformanceData perf : data.performances()) {
             // 청구 내역을 출력한다.
-            result += "    " + playFor(perf).name() + ": " + usd(amountFor(perf)) + " (" + perf.audience() + "석)\n";
+            result += "    " + perf.play().name() + ": " + usd(amountFor(perf)) + " (" + perf.audience() + "석)\n";
         }
 
-        result += "총액: " + usd(totalAmount()) + "\n";
+        result += "총액: " + usd(totalAmount(data.performances())) + "\n";
         result += "적립 포인트: " + totalVolumeCredits() + "점\n";
         return result;
     }
 
-    private int totalAmount() {
+    private PerformanceData enrichPerformance(Performance aPerformance) {
+        return new PerformanceData(aPerformance.playID(), aPerformance.audience(), playFor(aPerformance));
+    }
+
+    private int totalAmount(List<PerformanceData> performances) {
         int result = 0;
-        for (Performance perf : invoice.performances()) {
+        for (PerformanceData perf : performances) {
             result += amountFor(perf);
         }
         return result;
@@ -75,10 +75,10 @@ public class Statement {
         return this.plays.get(perf.playID());
     }
 
-    private int amountFor(Performance aPerformance) {
+    private int amountFor(PerformanceData aPerformance) {
         int result = 0;
 
-        switch (playFor(aPerformance).type()) {
+        switch (aPerformance.play().type()) {
             case "tragedy": // 비극
                 result = 40000;
                 if (aPerformance.audience() > 30) {
@@ -93,7 +93,7 @@ public class Statement {
                 result += 300 * aPerformance.audience();
                 break;
             default:
-                throw new RuntimeException("알 수 없는 장르: " + playFor(aPerformance).type());
+                throw new RuntimeException("알 수 없는 장르: " + aPerformance.play().type());
         }
 
         return result;
