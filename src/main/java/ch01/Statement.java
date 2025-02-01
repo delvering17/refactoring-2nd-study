@@ -14,16 +14,22 @@ public class Statement {
         // 생성자로 plays를 넣거나 현재처럼 넣거나이지만 예제의 함수를 최대한 변경하지 않으려 이곳에서 값 할당.
         this.invoice = invoice;
         this.plays = plays;
+
+        StatementData statementData = createStatementData(invoice);
+        return renderPlainText(statementData);
+    }
+
+    private StatementData createStatementData(Invoice invoice) {
         List<PerformanceData> performances = invoice.performances().stream()
                 .map(this::enrichPerformance)
                 .toList();
-        StatementData statementData = new StatementData(
+
+        return new StatementData(
                 invoice.customer(),
                 performances,
                 totalAmount(performances),
                 totalVolumeCredits(performances)
         );
-        return renderPlainText(statementData);
     }
 
     private String renderPlainText(StatementData data) {
