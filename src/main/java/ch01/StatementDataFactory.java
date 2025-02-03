@@ -25,6 +25,8 @@ public class StatementDataFactory {
     }
 
     private PerformanceData enrichPerformance(Performance aPerformance) {
+        PerformanceCalculator calculator = new PerformanceCalculator(aPerformance);
+
         return new PerformanceData(
                 aPerformance.playID(),
                 aPerformance.audience(),
