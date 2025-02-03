@@ -36,8 +36,12 @@ public class StatementDataFactory {
         );
     }
 
-    private PerformanceCalculator createPerformanceCalculator(Performance aPerformance, Play play) {
-        return new PerformanceCalculator(aPerformance, play);
+    private PerformanceCalculator createPerformanceCalculator(Performance aPerformance, Play aPlay) {
+        return switch (aPlay.type()) {
+            case "tragedy" -> new TragedyCalculator(aPerformance, aPlay);
+            case "comedy" -> new ComedyCalculator(aPerformance, aPlay);
+            default -> throw new IllegalArgumentException("알 수 없는 장르:" + aPlay.type());
+        };
     }
 
     private int totalAmount(List<PerformanceData> performances) {
