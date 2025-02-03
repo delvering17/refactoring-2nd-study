@@ -68,9 +68,11 @@ public class Statement {
                 "othello", new Play("Othello", "tragedy")
         );
 
-        String result = statement.statement(invoice, plays);
+        String resultText = statement.statement(invoice, plays);
+        String resultHtml = statement.htmlStatement(invoice, plays);
 
-        System.out.println(result);
+        System.out.println(resultText);
+        System.out.println(resultHtml);
     }
 
 }
