@@ -2,8 +2,8 @@ package ch01;
 
 public class PerformanceCalculator {
 
-    private final Performance performance;
-    private final Play play;
+    protected final Performance performance;
+    protected final Play play;
 
     public PerformanceCalculator(Performance aPerformance, Play aPlay) {
         this.performance = aPerformance;
@@ -19,11 +19,7 @@ public class PerformanceCalculator {
 
         switch (play.type()) {
             case "tragedy": // 비극
-                result = 40000;
-                if (performance.audience() > 30) {
-                    result += 1000 * (performance.audience() - 30);
-                }
-                break;
+                throw new RuntimeException("오류 발생");
             case "comedy": // 희극
                 result = 30000;
                 if (performance.audience() > 20) {
