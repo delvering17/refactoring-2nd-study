@@ -25,12 +25,12 @@ public class StatementDataFactory {
     }
 
     private PerformanceData enrichPerformance(Performance aPerformance) {
-        PerformanceCalculator calculator = new PerformanceCalculator(aPerformance);
+        PerformanceCalculator calculator = new PerformanceCalculator(aPerformance, playFor(aPerformance));
 
         return new PerformanceData(
                 aPerformance.playID(),
                 aPerformance.audience(),
-                playFor(aPerformance),
+                calculator.getPlay(),
                 amountFor(aPerformance),
                 volumeCreditsFor(aPerformance)
         );
