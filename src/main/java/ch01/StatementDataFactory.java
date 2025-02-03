@@ -25,7 +25,7 @@ public class StatementDataFactory {
     }
 
     private PerformanceData enrichPerformance(Performance aPerformance) {
-        PerformanceCalculator calculator = new PerformanceCalculator(aPerformance, playFor(aPerformance));
+        PerformanceCalculator calculator = createPerformanceCalculator(aPerformance, playFor(aPerformance));
 
         return new PerformanceData(
                 aPerformance.playID(),
@@ -34,6 +34,10 @@ public class StatementDataFactory {
                 calculator.amount(),
                 calculator.volumeCredits()
         );
+    }
+
+    private PerformanceCalculator createPerformanceCalculator(Performance aPerformance, Play play) {
+        return new PerformanceCalculator(aPerformance, play);
     }
 
     private int totalAmount(List<PerformanceData> performances) {
