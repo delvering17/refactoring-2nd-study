@@ -32,7 +32,7 @@ public class StatementDataFactory {
                 aPerformance.audience(),
                 calculator.getPlay(),
                 calculator.amount(),
-                volumeCreditsFor(aPerformance)
+                calculator.volumeCredits()
         );
     }
 
@@ -50,10 +50,6 @@ public class StatementDataFactory {
 
     private Play playFor(Performance perf) {
         return this.plays.get(perf.playID());
-    }
-
-    private int volumeCreditsFor(Performance perf) {
-        return new PerformanceCalculator(perf, playFor(perf)).volumeCredits();
     }
 
 }
