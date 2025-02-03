@@ -51,28 +51,4 @@ public class Statement {
                 .format(aNumber / 100.0);
     }
 
-    public static void main(String[] args) {
-        Statement statement = new Statement();
-        String customer = "BigCo";
-        List<Performance> performances = List.of(
-                new Performance("hamlet", 55),
-                new Performance("as-like", 35),
-                new Performance("othello", 40)
-        );
-
-        Invoice invoice = new Invoice(customer, performances);
-
-        Map<String, Play> plays = Map.of(
-                "hamlet", new Play("hamlet", "tragedy"),
-                "as-like", new Play("As You Like It", "comedy"),
-                "othello", new Play("Othello", "tragedy")
-        );
-
-        String resultText = statement.statement(invoice, plays);
-        String resultHtml = statement.htmlStatement(invoice, plays);
-
-        System.out.println(resultText);
-        System.out.println(resultHtml);
-    }
-
 }
