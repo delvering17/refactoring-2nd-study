@@ -1,6 +1,5 @@
 package ch04;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -13,13 +12,13 @@ public class Province {
     private Long demand;
     private Long price;
 
-    public Province(String name, Long totalProduction, Long demand, Long price, List<ProducerSaveRequest> producers) {
+    public Province(String name, Long demand, Long price, List<ProducerSaveRequest> producers) {
         this.name = name;
         this.demand = demand;
         this.price = price;
+        this.totalProduction = 0L;
         this.producers = new ArrayList<>();
-        this.totalProduction = totalProduction;
-        producers.forEach(d -> new Producer(this, d));
+        producers.forEach(d -> addProducer(new Producer(this, d)));
     }
 
     public Long shortfall() {
