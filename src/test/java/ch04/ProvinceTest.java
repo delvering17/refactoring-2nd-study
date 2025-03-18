@@ -10,6 +10,7 @@ import static org.assertj.core.api.Assertions.*;
 class ProvinceTest {
 
     private Province province;
+    private Province noProducers;
 
     @BeforeEach
     void beforeEach() {
@@ -19,6 +20,7 @@ class ProvinceTest {
                 new ProducerSaveRequest("Sinope", 10L, 6L)
         );
         province = new Province("Asia", 30L, 20L, producerSaveRequests);
+        noProducers = new Province("No producers", 30L, 20L, List.of());
     }
 
     @Test
@@ -36,6 +38,16 @@ class ProvinceTest {
         province.getProducers().get(0).setProduction("20");
         assertThat(province.shortfall()).isEqualTo(-6);
         assertThat(province.profit()).isEqualTo(292);
+    }
+
+    @Test
+    void no_producers_shortfall() {
+        assertThat(noProducers.shortfall()).isEqualTo(30);
+    }
+
+    @Test
+    void no_producers_profit() {
+        assertThat(noProducers.profit()).isEqualTo(0);
     }
 
 }
