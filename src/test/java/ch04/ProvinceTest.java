@@ -31,4 +31,11 @@ class ProvinceTest {
         assertThat(province.profit()).isEqualTo(230);
     }
 
+    @Test
+    void change_production() {
+        province.getProducers().get(0).setProduction("20");
+        assertThat(province.shortfall()).isEqualTo(-6);
+        assertThat(province.profit()).isEqualTo(292);
+    }
+
 }

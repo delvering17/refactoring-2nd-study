@@ -40,5 +40,6 @@ public class Producer {
         }
 
         this.province.addProduction(newProduction - this.production);
+        this.production = newProduction;
     }
 }
