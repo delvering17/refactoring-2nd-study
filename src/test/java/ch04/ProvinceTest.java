@@ -19,4 +19,15 @@ class ProvinceTest {
         assertThat(province.shortfall()).isEqualTo(5L);
     }
 
+    @Test
+    void profit() {
+        List<ProducerSaveRequest> producerSaveRequests = List.of(
+                new ProducerSaveRequest("Byzantium", 10L, 9L),
+                new ProducerSaveRequest("Attalia", 12L, 10L),
+                new ProducerSaveRequest("Sinope", 10L, 6L)
+        );
+        Province province = new Province("Asia", 30L, 20L, producerSaveRequests);
+        assertThat(province.profit()).isEqualTo(230);
+    }
+
 }
