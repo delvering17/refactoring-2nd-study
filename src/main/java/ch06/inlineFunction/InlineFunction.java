@@ -9,13 +9,9 @@ public class InlineFunction {
         Map<String, String> lines = new HashMap<>();
 
         lines.put("name", aCustomer.name());
-        gatherCustomerData(lines, aCustomer);
+        lines.put("location", aCustomer.location());
 
         return lines;
-    }
-
-    private void gatherCustomerData(Map<String, String> out, Customer aCustomer) {
-        out.put("location", aCustomer.location());
     }
 
 }
