@@ -25,6 +25,15 @@ public class ExtractFunction {
         System.out.println("***********");
     }
 
+    private int calculateOutstanding(Invoice invoice) {
+        int outstanding = 0;
+        for (Order order : invoice.orders) {
+            outstanding += order.amount();
+        }
+
+        return outstanding;
+    }
+
     private void recordDueDate(Invoice invoice) {
         LocalDate today = LocalDate.now();
         invoice.dueDate = today.plusDays(30);
