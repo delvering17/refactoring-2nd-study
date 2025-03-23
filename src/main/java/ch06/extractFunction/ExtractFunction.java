@@ -13,8 +13,7 @@ public class ExtractFunction {
             outstanding += order.amount();
         }
 
-        LocalDate today = LocalDate.now();
-        invoice.dueDate = today.plusDays(30);
+        recordDueDate(invoice);
 
         printDetails(invoice, outstanding);
     }
@@ -23,6 +22,11 @@ public class ExtractFunction {
         System.out.println("***********");
         System.out.println("****고객채무***");
         System.out.println("***********");
+    }
+
+    private void recordDueDate(Invoice invoice) {
+        LocalDate today = LocalDate.now();
+        invoice.dueDate = today.plusDays(30);
     }
 
     private void printDetails(Invoice invoice, int outstanding) {
