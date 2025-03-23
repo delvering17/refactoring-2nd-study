@@ -5,10 +5,11 @@ import java.time.LocalDate;
 public class ExtractFunction {
 
     public void printOwing(Invoice invoice) {
-        int outstanding = 0;
+
 
         printBanner();
 
+        int outstanding = 0;
         for (Order order : invoice.orders) {
             outstanding += order.amount();
         }
