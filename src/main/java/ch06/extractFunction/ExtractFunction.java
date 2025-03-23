@@ -16,9 +16,7 @@ public class ExtractFunction {
         LocalDate today = LocalDate.now();
         invoice.dueDate = today.plusDays(30);
 
-        System.out.println("고객명: " + invoice.customer);
-        System.out.println("채무액: " + outstanding);
-        System.out.println("마감일: " + invoice.dueDate);
+        printDetails(invoice, outstanding);
     }
 
     private void printBanner() {
@@ -27,5 +25,10 @@ public class ExtractFunction {
         System.out.println("***********");
     }
 
+    private void printDetails(Invoice invoice, int outstanding) {
+        System.out.println("고객명: " + invoice.customer);
+        System.out.println("채무액: " + outstanding);
+        System.out.println("마감일: " + invoice.dueDate);
+    }
 
 }
