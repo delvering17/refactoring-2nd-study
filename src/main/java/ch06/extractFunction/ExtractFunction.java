@@ -23,12 +23,12 @@ public class ExtractFunction {
     }
 
     private int calculateOutstanding(Invoice invoice) {
-        int outstanding = 0;
+        int result = 0;
         for (Order order : invoice.orders) {
-            outstanding += order.amount();
+            result += order.amount();
         }
 
-        return outstanding;
+        return result;
     }
 
     private void recordDueDate(Invoice invoice) {
