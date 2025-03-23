@@ -9,10 +9,7 @@ public class ExtractFunction {
 
         printBanner();
 
-        int outstanding = 0;
-        for (Order order : invoice.orders) {
-            outstanding += order.amount();
-        }
+        int outstanding = calculateOutstanding(invoice);
 
         recordDueDate(invoice);
 
