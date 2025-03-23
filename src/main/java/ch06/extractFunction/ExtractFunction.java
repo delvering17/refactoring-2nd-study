@@ -7,9 +7,7 @@ public class ExtractFunction {
     public void printOwing(Invoice invoice) {
         int outstanding = 0;
 
-        System.out.println("***********");
-        System.out.println("****고객채무***");
-        System.out.println("***********");
+        printBanner();
 
         for (Order order : invoice.orders) {
             outstanding += order.amount();
@@ -21,6 +19,12 @@ public class ExtractFunction {
         System.out.println("고객명: " + invoice.customer);
         System.out.println("채무액: " + outstanding);
         System.out.println("마감일: " + invoice.dueDate);
+    }
+
+    private void printBanner() {
+        System.out.println("***********");
+        System.out.println("****고객채무***");
+        System.out.println("***********");
     }
 
 
