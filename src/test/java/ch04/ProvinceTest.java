@@ -50,4 +50,23 @@ class ProvinceTest {
         assertThat(noProducers.profit()).isEqualTo(0);
     }
 
+    @Test
+    void zero_demand() {
+        province.setDemand("0");
+        assertThat(province.shortfall()).isEqualTo(-25);
+        assertThat(province.profit()).isEqualTo(0);
+    }
+
+    @Test
+    void negative_demand() {
+        province.setDemand("-1");
+        assertThat(province.shortfall()).isEqualTo(-26);
+        assertThat(province.profit()).isEqualTo(-10);
+    }
+
+    @Test
+    void empty_string_demand() {
+        assertThatThrownBy(() -> province.setDemand("")).isInstanceOf(NumberFormatException.class);
+    }
+
 }
